@@ -4,16 +4,11 @@ import { Component } from '@angular/core';
     selector: 'courses',
     // when wanting to use two way binding, use the banana in a box method '[()]', and bind to the ngModel property
     template: `
-        <input [value]="email" (keyup.enter)="email = $event.target.value; onKeyUp()" />
-        <input [(ngModel)]="email" (keyup.enter)="onKeyUp()" />
+        {{ text | summary:10 }}
     `
 })
 export class CoursesComponent {
-    email = "me@example.com";
-
-    onKeyUp() {
-        console.log(this.email);
-    }
+    text = `me ogmd krfkk l ksldk s ld;sd iefieeefie nfe efmefme f.`
 }
 
 
