@@ -2,13 +2,17 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'courses',
+    // when wanting to use two way binding, use the banana in a box method '[()]', and bind to the ngModel property
     template: `
-        <button (click)="onSave($event)">Save</button>
+        <input [value]="email" (keyup.enter)="email = $event.target.value; onKeyUp()" />
+        <input [(ngModel)]="email" (keyup.enter)="onKeyUp()" />
     `
 })
 export class CoursesComponent {
-    onSave($event) {
-        console.log("Button Save Clicked", $event);
+    email = "me@example.com";
+
+    onKeyUp() {
+        console.log(this.email);
     }
 }
 
