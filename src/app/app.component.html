@@ -1,6 +1,13 @@
-<button (click)="loadCourses()">Load Courses</button>
-<ul>
-    <li *ngFor="let course of courses; trackBy: trackCourse">
-        {{ course.name }}
-    </li>
-</ul>
+
+<button
+    [style.backgroundColor]="canSave ? 'blue': 'gray'"
+    [style.color]="canSave ? 'white': 'black'"
+    [style.fontWeight]="canSave ? 'bold': 'normal'"
+    [ngStyle]="{
+         'backgroundColor': canSave ? 'blue': 'gray'  
+         'Color': canSave ? 'white': 'black'  
+         'backgroundColor': canSave ? 'blue': 'gray'   
+    }"
+>
+Save
+</button>
