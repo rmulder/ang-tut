@@ -6,18 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  courses = [
-    { id: 1, name: 'course1' },
-    { id: 2, name: 'course2' },
-    { id: 3, name: 'course3' }
-  ];
+  courses;
 
-  onAdd() {
-    this.courses.push({ id: 4, name: "course4" });
+  loadCourses() {
+    this.courses = [
+      { id: 1, name: 'course1' },
+      { id: 2, name: 'course2' },
+      { id: 3, name: 'course3' }
+    ];
   }
 
-  onChange(course) {
-    course.name = 'UPDATED';
+  trackCourse(index, course) {
+    return course ? course.id : undefined;
   }
 }
 
