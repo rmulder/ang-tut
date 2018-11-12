@@ -1,19 +1,30 @@
-import { Component } from '@angular/core';
-import { Http } from '@angular/http';
+import { Component, OnInit } from '@angular/core';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
-export class PostsComponent {
+export class PostsComponent implements OnInit {
   posts: any[];
-  private url = 'http://jsonplaceholder.typicode.com/posts';
-
-  constructor(private http: Http) {
-    http.get(this.url)
+ 
+  constructor(private service: PostService) {
+  }
+ // User ngOnInit instead of constructor to initialize a component
+ // This function runs when the component is loaded
+  ngOnInit() {
+    this.service.getPosts()
       .subscribe(response => {
         this.posts = response.json();
+      }, 
+      (error: Response) => {
+        if (error.status === 404)
+          alert('this post has already been deleted.');
+        else {
+          alert('An unexpected error occurred.');
+          console.log(error);
+        }
       });
   }
 
@@ -21,15 +32,24 @@ export class PostsComponent {
     let post = { title: input.value };
     input.value = '';
 
-    this.http.post(this.url, JSON.stringify(post))
+    this.service.createPost(post)
       .subscribe(response => {
         post['id'] = response.json().id;
         this.posts.splice(0, 0, post);
+      }, 
+      (error: Response) => {
+        if (error.status === 400) {
+          //this.form.setErrors(error.json());
+        }
+        else {
+          alert('An unexpected error occurred.');
+          console.log(error);
+        }
       });
   }
 
   updatePost(post) {
-    this.http.patch(this.url + '/' + post.id, JSON.stringify({ isRead: true }))
+    this.service.updatePost(post)
       .subscribe(response => {
         console.log(response.json());
       });
@@ -37,7 +57,7 @@ export class PostsComponent {
   }
 
   deletePost(post) {
-    this.http.delete(this.url + '/' + post.id)
+    this.service.deletePost(post.id)
       .subscribe(response => {
         let index = this.posts.indexOf(post);
         this.posts.splice(index, 1);
