@@ -51,7 +51,8 @@ import { PostService } from './services/post.service';
   providers: [
     PostService,
     CoursesService,
-    AuthorsService
+    AuthorsService,
+    { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [AppComponent]
 })
